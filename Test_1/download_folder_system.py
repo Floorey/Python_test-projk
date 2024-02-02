@@ -15,6 +15,7 @@ def delete_old_files(folder_path, older_than_days=14):
             if modified_at < older_than:
                 os.remove(file_path)
                 print(f'{file} has been deleted')
+                
 
 folder_path = "C:/Users/lukas/Downloads"
 delete_old_files(folder_path)

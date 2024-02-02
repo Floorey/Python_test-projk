@@ -51,7 +51,7 @@ pprint(json.loads(json.dumps(loaded_user_list)))
 
 
 def main():
-    values = loaded_user_list  # Use the loaded_user_list here
+    values = loaded_user_list  
     analyser = AnalyseUserList(values)
     analyser.analyse_userlist()
 
