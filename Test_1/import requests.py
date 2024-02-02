@@ -1,82 +1,88 @@
 import random
 import pickle
 from datetime import datetime
+import statistics
 
+class DataAnalysis:
+    def __init__(self, values):
+        self.values = values
 
-# value creation
-def creat_values():
-    values = [random.uniform(1,100) for i in range (50)]
-    return values
+    def analyse_low_values(self):
+        for index, value in enumerate(self.values):
+            if value < 10:
+                print(f'Index {index}: {value} is too low!')
 
-#creat varible lists
-values1 = creat_values()
-values2 = creat_values()
+    def analyse_high_values(self):
+        for index, value in enumerate(self.values):
+            if value > 90:
+                print(f'Index {index}: {value} is too high!')
 
-#merge of the two lists
+    def analyse_most_value(self):
+        most = max(set(self.values), key=self.values.count)
+        print(f'The most frequent value: {most} ')
+
+    def analyse_max_value(self):
+        max_value = max(self.values)
+        print(f'The highest value is: {max_value}')
+
+    def analyse_low_value(self):
+        min_value = min(self.values)
+        print(f'The lowest value is: {min_value}')
+
+    def analyse_average_value(self):
+        average_value = sum(self.values) / len(self.values)
+        print(f'The average value is: {average_value}')
+
+    def analyse_variance(self):
+        variance_value = statistics.variance(self.values)
+        print(f'The variance is: {variance_value}')
+
+    def analyse_2sd(self):
+        mean_value = statistics.mean(self.values)
+        std_deviation = statistics.stdev(self.values)
+
+        lower_bound = mean_value - (2 * std_deviation)
+        upper_bound = mean_value + (2 * std_deviation)
+
+        print(f'The 2SD area is: ({lower_bound}, {upper_bound})')
+
+def create_values():
+    return [random.uniform(1, 100) for _ in range(50)]
+
 def merge_lists(arrayA, arrayB):
     return sorted(set(arrayA + arrayB))
 
-values3 = merge_lists(values1,values2)
+def save_to_file(data, folder_path):
+    current_date_and_time = datetime.now().strftime("%Y.%m.%d_%H.%M.%S")
+    filename = f'list_file_{current_date_and_time}.pkl'
 
-#create a file with date and time stamp
-current_date_and_time = datetime.now().strftime("%Y.%m.%d_%H.%M.%S")
-filename = f'list_file_{current_date_and_time}.pkl'
+    with open(folder_path + filename, 'wb') as my_file:
+        pickle.dump(data, my_file)
 
-#save the list
-folder_path = "C:/Users/lukas/OneDrive/Dokumente/Python_test-projk/Test_1"
+    return filename
 
-with open (folder_path + filename, 'wb') as my_file:
-       pickle.dump(values3, my_file)
-
-
-with open (folder_path + filename, 'rb') as my_file:
-       loaded_lists = pickle.load(my_file)
-
-
-
-def analyse_low_values():
-    for index, value in enumerate(loaded_lists):
-        if value < 10:
-            print(f'Index {index}: {value} is too low!')
-
-def analyse_high_values():
-    for index, value in enumerate(loaded_lists):
-        if value > 90:
-            print(f'Index {index}: {value} is too high!')
-
-
-def analyse_most_value():
-    most = max(set(loaded_lists), key=loaded_lists.count)
-    print(f'The most frequent value: {most} ')
-     
-def analyse_max_value():
-    max_value = max(loaded_lists)
-    print(f'The highest value is: {max_value}')   
-
-def analyse_low_value():
-    min_value = min(loaded_lists)
-    print(f'The lowest value is: {min_value}')      
-          
+def load_from_file(file_path):
+    with open(file_path, 'rb') as my_file:
+        return pickle.load(my_file)
 
 def main():
-    analyse_low_values()
-    analyse_high_values()
-    analyse_most_value()
-    analyse_max_value()
-    analyse_low_value()
+    values1 = create_values()
+    values2 = create_values()
+    merged_values = merge_lists(values1, values2)
+
+    folder_path = "C:/Users/lukas/OneDrive/Dokumente/Python_test-projk/Test_1"
+    filename = save_to_file(merged_values, folder_path)
+    loaded_lists = load_from_file(folder_path + filename)
+
+    data_analysis = DataAnalysis(loaded_lists)
+    data_analysis.analyse_low_values()
+    data_analysis.analyse_high_values()
+    data_analysis.analyse_most_value()
+    data_analysis.analyse_max_value()
+    data_analysis.analyse_low_value()
+    data_analysis.analyse_average_value()
+    data_analysis.analyse_2sd()
+    data_analysis.analyse_variance()
 
 if __name__ == "__main__":
     main()
-
-       
-            
-
- 
-
-
-
-       
-            
-
- 
-
