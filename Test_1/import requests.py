@@ -2,6 +2,8 @@ import random
 import pickle
 from datetime import datetime
 import statistics
+from collections import Counter
+
 
 class DataAnalysis:
     def __init__(self, values):
@@ -18,11 +20,13 @@ class DataAnalysis:
                 print(f'Index {index}: {value} is too high!')
 
     def analyse_most_value(self):
-        most = max(set(self.values), key=self.values.count)
+        value_counts = Counter(self.values)
+        most = max(value_counts, key=value_counts.get)
         print(f'The most frequent value: {most} ')
 
     def analyse_less_value(self):
-        less = min(set(self.values),key=self.values.count)
+        value_counts = Counter(self.values)
+        less = min(value_counts, key=value_counts.get)
         print(f'The less frequent value is: {less} ')
 
     def analyse_max_value(self):
@@ -102,6 +106,8 @@ def main():
     data_analysis.analyse_median()
     data_analysis.analyse_std_dev()
   
+
+    print(f'Loaded list of values: {loaded_lists}')
 
 if __name__ == "__main__":
     main()
