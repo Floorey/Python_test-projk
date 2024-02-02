@@ -61,7 +61,7 @@ from datetime import datetime
 
 # value creation
 def creat_values():
-    values = [random.randint(1,100) for i in range (50)]
+    values = [random.uniform(1,100) for i in range (50)]
     return values
 
 #creat varible lists
