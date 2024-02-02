@@ -8,7 +8,7 @@ def delete_old_files(folder_path, older_than_days=14):
     for file in os.listdir(folder_path):
         file_path = os.path.join(folder_path, file)
 
-        # Überprüfen, ob es sich um eine Datei handelt
+        
         if os.path.isfile(file_path):
             modified_at = datetime.fromtimestamp(os.path.getmtime(file_path))
 
