@@ -11,7 +11,7 @@ class DataAnalysis:
 
     def analyse_low_values(self):
         for index, value in enumerate(self.values):
-            if value < 295:
+            if value < 95:
                 print(f'Index {index}: {value} is too low!')
 
     def analyse_high_values(self):
