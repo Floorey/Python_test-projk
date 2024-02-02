@@ -19,16 +19,6 @@ class DataAnalysis:
             if value > 495:
                 print(f'Index {index}: {value} is too high!')
 
-    def analyse_most_value(self):
-        value_counts = Counter(self.values)
-        most = max(value_counts, key=value_counts.get)
-        print(f'The most frequent value: {most} ')
-
-    def analyse_less_value(self):
-        value_counts = Counter(self.values)
-        less = min(value_counts, key=value_counts.get)
-        print(f'The less frequent value is: {less} ')
-
     def analyse_max_value(self):
         max_value = max(self.values)
         print(f'The highest value is: {max_value}')
@@ -66,7 +56,7 @@ class DataAnalysis:
 
 
 def create_values():
-    return [random.randint(1, 500) for _ in range(50)]
+    return [random.randint(1, 500) for _ in range(150)]
 
 def merge_lists(arrayA, arrayB):
     return sorted(set(arrayA + arrayB))
@@ -96,8 +86,6 @@ def main():
     data_analysis = DataAnalysis(loaded_lists)
     data_analysis.analyse_low_values()
     data_analysis.analyse_high_values()
-    data_analysis.analyse_most_value()
-    data_analysis.analyse_less_value()
     data_analysis.analyse_max_value()
     data_analysis.analyse_low_value()
     data_analysis.analyse_average_value()
