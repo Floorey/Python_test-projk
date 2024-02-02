@@ -97,12 +97,29 @@ def analyse_low_values():
 
 def analyse_high_values():
     for index, value in enumerate(loaded_lists):
-        if value > 85:
+        if value > 90:
             print(f'Index {index}: {value} is too high!')
+
+
+def analyse_most_value():
+    most = max(set(loaded_lists), key=loaded_lists.count)
+    print(f'The most frequent value: {most} ')
+     
+def analyse_max_value():
+    max_value = max(loaded_lists)
+    print(f'The highest value is: {max_value}')   
+
+def analyse_low_value():
+    min_value = min(loaded_lists)
+    print(f'The lowest value is: {min_value}')      
+          
 
 def main():
     analyse_low_values()
     analyse_high_values()
+    analyse_most_value()
+    analyse_max_value()
+    analyse_low_value()
 
 if __name__ == "__main__":
     main()
