@@ -21,6 +21,10 @@ class DataAnalysis:
         most = max(set(self.values), key=self.values.count)
         print(f'The most frequent value: {most} ')
 
+    def analyse_less_value(self):
+        less = min(set(self.values),key=self.values.count)
+        print(f'The less frequent value is: {less} ')
+
     def analyse_max_value(self):
         max_value = max(self.values)
         print(f'The highest value is: {max_value}')
@@ -45,9 +49,20 @@ class DataAnalysis:
         upper_bound = mean_value + (2 * std_deviation)
 
         print(f'The 2SD area is: ({lower_bound}, {upper_bound})')
+    
+    def analyse_median(self):
+        median_value = statistics.median(self.values)
+        print(f'The median value is: {median_value}')
+    
+    def analyse_std_dev(self):
+        std_deviation = statistics.stdev(self.values)
+        print(f'The std_deviation is: {std_deviation}')
+
+
+
 
 def create_values():
-    return [random.uniform(1, 100) for _ in range(50)]
+    return [random.randint(1, 100) for _ in range(50)]
 
 def merge_lists(arrayA, arrayB):
     return sorted(set(arrayA + arrayB))
@@ -78,11 +93,15 @@ def main():
     data_analysis.analyse_low_values()
     data_analysis.analyse_high_values()
     data_analysis.analyse_most_value()
+    data_analysis.analyse_less_value()
     data_analysis.analyse_max_value()
     data_analysis.analyse_low_value()
     data_analysis.analyse_average_value()
     data_analysis.analyse_2sd()
     data_analysis.analyse_variance()
+    data_analysis.analyse_median()
+    data_analysis.analyse_std_dev()
+  
 
 if __name__ == "__main__":
     main()
