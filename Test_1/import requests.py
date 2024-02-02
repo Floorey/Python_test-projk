@@ -11,12 +11,12 @@ class DataAnalysis:
 
     def analyse_low_values(self):
         for index, value in enumerate(self.values):
-            if value < 10:
+            if value < 295:
                 print(f'Index {index}: {value} is too low!')
 
     def analyse_high_values(self):
         for index, value in enumerate(self.values):
-            if value > 90:
+            if value > 495:
                 print(f'Index {index}: {value} is too high!')
 
     def analyse_most_value(self):
@@ -66,7 +66,7 @@ class DataAnalysis:
 
 
 def create_values():
-    return [random.randint(1, 100) for _ in range(50)]
+    return [random.randint(1, 500) for _ in range(50)]
 
 def merge_lists(arrayA, arrayB):
     return sorted(set(arrayA + arrayB))
