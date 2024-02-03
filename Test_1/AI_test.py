@@ -1,3 +1,4 @@
+import sklearn
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
