@@ -11,6 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from geopy.exc import GeocoderTimedOut
 from geopy.geocoders import Nominatim, GoogleV3
+import time  # Import the time module for adding delays
 
 fake = Faker()
 
@@ -47,16 +48,30 @@ with open('user_data.json', 'r') as json_file:
 # Work with addresses for clustering
 addresses = [user['address'] for user in user_list]
 
-# Extract zip codes from addresses using Nominatim
-geolocator_nominatim = Nominatim(user_agent="address_clustering")
+# Extract zip codes from addresses using Nominatim with retry mechanism and increased timeout
+geolocator_nominatim = Nominatim(user_agent="address_clustering", timeout=20)
+
+def geocode_with_retry(geolocator, address):
+    MAX_RETRIES = 3
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            location = geolocator.geocode(address)
+            if location and location.address and 'postcode' in location.raw['address']:
+                return location.raw['address']['postcode']
+        except GeocoderTimedOut:
+            retries += 1
+    return None
+
 zip_codes_nominatim = []
 
 for address in addresses:
     try:
-        location = geolocator_nominatim.geocode(address)
-        if location and location.address and 'postcode' in location.raw['address']:
-            zip_code = location.raw['address']['postcode']
+        zip_code = geocode_with_retry(geolocator_nominatim, address)
+        if zip_code:
             zip_codes_nominatim.append(zip_code)
+        # Add a delay between geocoding requests to avoid rate-limiting
+        time.sleep(1)
     except GeocoderTimedOut:
         pass
 
