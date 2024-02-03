@@ -4,6 +4,7 @@ from datetime import date
 from collections import Counter
 from pprint import pprint
 
+
 fake = Faker()
 
 
