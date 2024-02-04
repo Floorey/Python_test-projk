@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from geopy.exc import GeocoderTimedOut
 from geopy.geocoders import Nominatim, GoogleV3
-import time  # Import the time module for adding delays
+import time  
 
 fake = Faker()
 

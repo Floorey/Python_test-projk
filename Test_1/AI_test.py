@@ -1,31 +1,39 @@
-import sklearn
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
+import numpy
 
-# Vorbereite die Adressdaten für das Clustering
-addresses = [user['address'] for user in user_list]
+array_1 = numpy.array([1,2,3,4,5,6])
+array_3 = numpy.array([1,2,3,4,5,6])
 
-# Verwende einfache Merkmale für das Clustering (z.B. Länge der Adresse)
-features = [[len(address)] for address in addresses]
 
-# Standardisiere die Daten
-scaler = StandardScaler()
-features_scaled = scaler.fit_transform(features)
 
-# Wähle die Anzahl der Cluster
-num_clusters = 3
+array_2 = array_1 + array_3
 
-# Führe das Clustering durch
-kmeans = KMeans(n_clusters=num_clusters, random_state=42)
-clusters = kmeans.fit_predict(features_scaled)
+print(array_2)
+print(type(array_2))
 
-# Füge die Clusterinformationen zu den Benutzerdaten hinzu
-for i, user in enumerate(user_list):
-    user['cluster'] = clusters[i]
 
-# Visualisiere die Cluster
-plt.scatter(features_scaled[:, 0], [0] * len(features_scaled), c=clusters, cmap='viridis', alpha=0.5)
-plt.title('Address Clustering')
-plt.xlabel('Scaled Address Length')
-plt.show()
+def car_init(self, brand):
+    self.brand = brand
+
+
+def drvie(self):
+    print(f'{self.brand}: drive()')
+
+
+Car = type('Car', (),{
+    '__init__': car_init,
+    'drive': drvie
+})
+
+car = Car('Volvo')
+car.drive()
+
+
+
+
+
+
+
+
+values = ('a1', 'b2', 'c2')
+
+print(dict(values))
