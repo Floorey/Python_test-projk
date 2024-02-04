@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 
@@ -15,28 +16,27 @@ class AnalyseValues():
     def __init__(self):
         self.max_value1 = None
         self.max_value2 = None
+        self.var_value1 = None
+        self.var_value2 = None
+        self.std_dev_1 = None
+        self.std_dev_2 = None
 
-
-    @staticmethod
     def analyse_values_max(array_1, array_2):
         max_value1 = np.max(array_1)
         max_value2 = np.max(array_2)
         return max_value1, max_value2
-    
-    @staticmethod
+      
     def analyse_variance(array_1, array_2):
         var_value1 = np.var(array_1)
         var_value2 = np.var(array_2)
         return var_value1, var_value2
     
-    @staticmethod
     def std_deviation(array1, array2):
         std_dev_1 = np.std(array_1)
         std_dev_2 = np.std(array_2)
         return std_dev_1, std_dev_2
    
    
-
 analyse_instance = AnalyseValues()
 analyse_instance2 = AnalyseValues()
 analyse_instance3 = AnalyseValues()
