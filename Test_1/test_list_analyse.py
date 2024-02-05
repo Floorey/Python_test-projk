@@ -37,17 +37,17 @@ class LoadValues():
 class AnalyseValues():
     def __init__(self):
         pass
-
-    def analyse_max_value(self, values):
+    @classmethod
+    def analyse_max_value(cls, values):
         return np.max(values)
-     
-    def analyse_lowest_value(self, values):
+    @classmethod 
+    def analyse_lowest_value(cls, values):
         return np.min(values)
-        
-    def analyse_var(self, values):
+    @classmethod    
+    def analyse_var(cls, values):
         return np.var(values)
-    
-    def analyse_std_dev(self, values):
+    @classmethod
+    def analyse_std_dev(cls, values):
         return np.std(values)
     
         
@@ -58,7 +58,7 @@ class Main():
         self.values2 = creat_values()
         self.values3 = creat_values()
         self.analyse_instance = AnalyseValues()
-        self.saver = SaveValues('examle.txt')
+        self.saver = SaveValues('example.txt')
 
     def perform_analysis(self, values):
         max_value = self.analyse_instance.analyse_max_value(values)
@@ -78,7 +78,6 @@ class Main():
 
         return result1, result2, result3
         
-
 
 
 

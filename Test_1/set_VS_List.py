@@ -14,3 +14,4 @@ print (f'Set: {set_time: .6f} seconds')
 speed_difference = (list_time-set_time)/list_time*100
 
 print(f'{speed_difference: .3f} % faster')
+print(type(my_set))
