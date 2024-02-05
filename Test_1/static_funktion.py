@@ -2,7 +2,7 @@
 
 
 import math
-#ststische Methoden
+#stastische Methoden
 class Circle:
 
 
@@ -12,7 +12,7 @@ class Circle:
        
 
     def area(self):
-        return math.pi * self._radius ** 2
+        return math.pi * self.get_radius ** 2
 
     def get_radius(self):
         return self._radius
