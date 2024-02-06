@@ -21,8 +21,8 @@ class MachineLearningMain():
             # Überspringen von Kommentarzeilen, die mit 'values' beginnen
             df = df[~df.iloc[:, 0].str.startswith('values')]
             
-            X = df.iloc[:, 2:].values  # Eingangsdaten: alle Spalten außer der ersten
-            y = df.iloc[:, 2].values    # Zielvariable: erste Spalte
+            X = df.iloc[:, 2:].values  # Eingangsdaten: alle Spalten außer der ersten 2
+            y = df.iloc[:, 2].values    # Zielvariable: ersten 2 Spalte
 
             # Ausreißer erkennen
             outliers = self.detect_outliers(X)
