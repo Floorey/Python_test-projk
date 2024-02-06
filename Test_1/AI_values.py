@@ -1,56 +1,50 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import numpy as np
-
-class SimpleModel(nn.Module):
-    def __init__(self, input_size, output_size):
-        super(SimpleModel, self).__init__()
-        self.linear = nn.Linear(input_size, output_size)
-
-    def forward(self, x):
-        return self.linear(x)
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from sklearn.ensemble import IsolationForest
 
 class MachineLearningMain():
     def __init__(self):
-        self.model = SimpleModel(input_size=4, output_size=1)  
-        self.criterion = nn.MSELoss()
-        self.optimizer = optim.SGD(self.model.parameters(), lr=0.01)
+        self.model = LinearRegression()
+        self.outlier_detector = IsolationForest()
 
-    def train_from_file(self, file_path, epochs=100, comment_prefix='values'):
-        with open(file_path, 'r') as file:
-            num_comment_lines = sum(1 for line in file if line.startswith(comment_prefix))
-            data = np.loadtxt(file_path, skiprows=num_comment_lines)
-            if data.ndim == 1:
-                data = data.reshape(-1, 1)
+    def detect_outliers(self, X):
+        # Ausreißer erkennen
+        outliers = self.outlier_detector.fit_predict(X)
+        return outliers
 
-            if data.shape[1] >= 5:
-                inputs = data[:, :4]
-                targets = data[:, 4].reshape(-1, 1)
+    def train_from_file(self, file_path):
+        # Einlesen der CSV-Datei mit Pandas
+        df = pd.read_csv(file_path)
+        
+        if df.shape[0] >= 5:
+            # Überspringen von Kommentarzeilen, die mit 'values' beginnen
+            df = df[~df.iloc[:, 0].str.startswith('values')]
+            
+            X = df.iloc[:, 2:].values  # Eingangsdaten: alle Spalten außer der ersten
+            y = df.iloc[:, 2].values    # Zielvariable: erste Spalte
 
-                for epoch in range(epochs):
-                    inputs_tensor = torch.tensor(inputs, dtype=torch.float32)
-                    targets_tensor = torch.tensor(targets, dtype=torch.float32)
-                    self.optimizer.zero_grad()
-                    outputs = self.model(inputs_tensor)
+            # Ausreißer erkennen
+            outliers = self.detect_outliers(X)
+            
+            # Nur nicht-ausreißerische Daten verwenden
+            X_filtered = X[outliers == 1]
+            y_filtered = y[outliers == 1]
 
-                    if inputs_tensor.dim() == 1:
-                        inputs_tensor = inputs_tensor.unsqueeze(0)
-
-                    loss = self.criterion(outputs, targets_tensor)
-                    loss.backward()
-                    self.optimizer.step()
-
-                    if epoch % 10 == 0:
-                        print(f'Epoch {epoch}, Loss: {loss.item()}')
-            else:
-                print('Nicht genügend Spalten in den Daten vorhanden.')
+            self.model.fit(X_filtered, y_filtered)
+            y_pred = self.model.predict(X_filtered)
+            
+            mse = mean_squared_error(y_filtered, y_pred)
+            print(f'Mean Squared Error (after removing outliers): {mse}')
+        else:
+            print('Nicht genügend Spalten in den Daten vorhanden.')
 
         return self.model
+
 
 # Beispiel für die Verwendung der ML-Klasse
 if __name__ == "__main__":
     ml_instance = MachineLearningMain()
-    file_path = r'C:\Users\lukas\OneDrive\Dokumente\Python_test-projk\example.txt'
+    file_path = r"C:\Users\lukas\OneDrive\Dokumente\Python_test-projk\exaplle.csv"
 
-    trained_model = ml_instance.train_from_file(file_path, epochs=100, comment_prefix='values')
+    trained_model = ml_instance.train_from_file(file_path)
