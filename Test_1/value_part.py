@@ -31,13 +31,14 @@ class Main():
         std_value = np.std(values)
         sec_std_value = np.std(values) * 2
         mean_value = np.mean(values)
-        return max_value, min_value, var_value, std_value, sec_std_value, mean_value
+        median_value = np.median(values)
+        return max_value, min_value, var_value, std_value, sec_std_value, mean_value, median_value
 
     def run(self, filename):
         # Daten generieren
-        values1 = np.random.uniform(0, 1, 50)
-        values2 = np.random.uniform(0, 1, 50)
-        values3 = np.random.uniform(0, 1, 50)
+        values1 = np.random.uniform(0, 1, 150)
+        values2 = np.random.uniform(0, 1, 150)
+        values3 = np.random.uniform(0, 1, 150)
 
         # Daten analysieren
         result1 = self.perform_analysis(values1)
