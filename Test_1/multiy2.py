@@ -3,10 +3,11 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics.pairwise import pairwise_distances_argmin
+from sklearn.metrics import silhouette_score
 import time
 
 # Laden des Bildes
-image_path = r"C:\Users\lukas\OneDrive\Desktop\Bilder\360_F_564741194_CjtDvMtO3zKdgd6Lz8Qphnv7UQ7PBKnR.jpg"
+image_path = r"C:\Users\lukas\OneDrive\Desktop\Bilder\zoey-deutch-65343-1653908496-w-893.jpg.jpg"
 image = Image.open(image_path)
 
 # Umwandeln des Bildes in ein NumPy-Array
@@ -20,6 +21,8 @@ X = image_array.reshape((height * width, channels))
 cluster_range = range(2, 11)
 k_means_times = []
 mbk_times = []
+k_means_silhouette_scores = []
+mbk_silhouette_scores = []
 
 for n_clusters in cluster_range:
     # KMeans-Clustering
@@ -28,6 +31,8 @@ for n_clusters in cluster_range:
     k_means.fit(X)
     k_means_time = time.time() - start_time
     k_means_times.append(k_means_time)
+    k_means_labels = k_means.predict(X)
+    k_means_silhouette_scores.append(silhouette_score(X, k_means_labels))
 
     # MiniBatchKMeans-Clustering
     start_time = time.time()
@@ -35,13 +40,18 @@ for n_clusters in cluster_range:
     mbk.fit(X)
     mbk_time = time.time() - start_time
     mbk_times.append(mbk_time)
+    mbk_labels = mbk.predict(X)
+    mbk_silhouette_scores.append(silhouette_score(X, mbk_labels))
 
 # Ergebnisse plotten
-plt.plot(cluster_range, k_means_times, label='KMeans')
-plt.plot(cluster_range, mbk_times, label='MiniBatchKMeans')
+plt.figure(figsize=(10, 6))
+plt.plot(cluster_range, k_means_times, '-o', label='KMeans Zeit')
+plt.plot(cluster_range, mbk_times, '-o', label='MiniBatchKMeans Zeit')
+plt.plot(cluster_range, k_means_silhouette_scores, '-o', label='KMeans Silhouette Score')
+plt.plot(cluster_range, mbk_silhouette_scores, '-o', label='MiniBatchKMeans Silhouette Score')
 plt.xlabel('Anzahl der Cluster')
-plt.ylabel('Zeit (Sekunden)')
-plt.title('Auswirkung der Anzahl der Cluster auf die Zeit')
+plt.ylabel('Wert')
+plt.title('Auswirkung der Anzahl der Cluster auf die Zeit und Silhouette Score')
 plt.legend()
 plt.show()
 
@@ -98,5 +108,3 @@ print(mbk_colors)
 # Ausgabe der Anzahl der Cluster und der Zeit für jedes Clustering
 print("Anzahl der Cluster (KMeans):", n_clusters)
 print("Anzahl der Cluster (MiniBatchKMeans):", n_clusters)
-print("Zeit für KMeans-Clustering:", k_means_time, "Sekunden")
-print("Zeit für MiniBatchKMeans-Clustering:", mbk_time, "Sekunden")

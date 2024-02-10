@@ -13,7 +13,7 @@ def calculate_mse(original_image, quantized_image):
 n_colors = 64
 
 
-china = plt.imread("C:/Users/lukas/OneDrive/Desktop/Bilder/pleiades-1.jpg")
+china = plt.imread("C:\Users\lukas\OneDrive\Desktop\Bilder\360_F_564741194_CjtDvMtO3zKdgd6Lz8Qphnv7UQ7PBKnR.jpg")
 
 
 china = np.array(china, dtype=np.float64) / 255
