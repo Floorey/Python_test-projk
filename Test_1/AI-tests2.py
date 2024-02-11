@@ -83,7 +83,7 @@ feature_batch = base_model(image_batch)
 print("Shape of feature batch:", feature_batch.shape)
 
 # Set the base model as non-trainable
-base_model.trainable = True
+base_model.trainable = False
 
 # Summary of the base model
 base_model.summary()
@@ -94,11 +94,13 @@ feature_batch_average = global_average_layer(feature_batch)
 print("Shape of global average pooled features:", feature_batch_average.shape)
 
 
-def resize_image(image_path, target_size):
-     image = Image.open(image_path)
-     resized_image = image.resize(target_size)
-     return resized_image
- 
-resized_image = resize_image("C:/Users/lukas/OneDrive/Dokumente/Python_test-projk/Traningsdaten/zoey-deutch-65343-1653908496-w-893.jpg.jpg", (160, 160))
-resized_image.show()
-    
+
+
+base_learning_rate = 0.0001
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=base_learning_rate),
+              loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+              metrics=[tf.keras.metrics.BinaryAccuracy(threshold=0, name='accuracy')])   
+
+prediction_image = preprocess_input(np.expand_dims(np.array(resize_image)), axis=0)
+predictions = model.predict(preprocessed_image)
+
